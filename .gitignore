@@ -1,0 +1,7 @@
+
+# IDEs and editors
+.project
+.classpath
+*.launch
+.settings/
+target/
