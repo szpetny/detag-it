@@ -7,7 +7,7 @@ import static uuu.ooo.detagit.CellAttributes.ID;
 import static uuu.ooo.detagit.CellAttributes.INPUT_NAME;
 import static uuu.ooo.detagit.CellAttributes.INPUT_TYPE;
 import static uuu.ooo.detagit.CellAttributes.INPUT_VAL;
-import static uuu.ooo.detagit.CellAttributes.RESTRRICTED;
+import static uuu.ooo.detagit.CellAttributes.RESTRICTED;
 import static uuu.ooo.detagit.CellAttributes.TEXT;
 
 import java.io.File;
@@ -36,6 +36,7 @@ public class App {
 	private static final Logger LOGGER = LogManager.getLogger(App.class);
 	private static Gson gson;
 	private static Row headers = new Row();
+	
 	private static List<Row> rows = new ArrayList<>();
 	
 	private static String dir;
@@ -89,9 +90,9 @@ public class App {
 		cell.addProp(A_HREF, tableCell.getElementsByAttribute("href").attr("href"));
 		cell.addProp(ABBR_TITLE, tableCell.getElementsByTag("abbr").attr("title"));
 		cell.addProp(ABBR_TEXT, tableCell.getElementsByTag("abbr").text().trim());
-		cell.addProp(RESTRRICTED, Boolean.valueOf(tableCell
-				.getElementsByClass("restricted") != null && !tableCell
-						.getElementsByClass("restricted").isEmpty()).toString());
+		cell.addProp(RESTRICTED, Boolean.valueOf(tableCell
+				.getElementsByClass("restricted_mark") != null && !tableCell
+						.getElementsByClass("restricted_mark").isEmpty()).toString());
 		cell.addProp(INPUT_NAME, tableCell.getElementsByTag("input").attr("name"));
 		cell.addProp(INPUT_VAL, tableCell.getElementsByTag("input").attr("value"));
 		cell.addProp(INPUT_TYPE, tableCell.getElementsByTag("input").attr("type"));
@@ -103,9 +104,9 @@ public class App {
 	private static String getTextFromTd(Element td) {
 		if (td.getElementsByAttribute("href") != null 
 				&& !td.getElementsByAttribute("href").isEmpty()) {
-			return  td.getElementsByAttribute("href").text().trim();
+			return  td.getElementsByAttribute("href").text().replaceAll("\u00a0", " ").trim();
 		} else {
-			return td.text().replace("\u00a0", "").trim();
+			return td.text().replaceAll("\u00a0", " ").trim();
 		}
 	}
 }
